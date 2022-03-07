@@ -18,4 +18,11 @@ public interface ShoppingCartService {
 	List<Cart> getCartItems(String userId, Long productId) throws DataNotFoundException;
 	public void addProduct(com.shoppingcart.dto.Cart cart);
 
+	/**
+	 *
+	 * @param userId
+	 * @param productId
+	 * @throws DataNotFoundException
+	 */
+	void removeCartItems(String userId, Long productId) throws DataNotFoundException;
 }

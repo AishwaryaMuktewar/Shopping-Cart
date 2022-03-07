@@ -15,6 +15,8 @@ import com.shoppingcart.exception.DataNotFoundException;
 import com.shoppingcart.repository.CartRepository;
 import com.shoppingcart.util.Constant;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 	
@@ -54,5 +56,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public void addProduct(com.shoppingcart.dto.Cart cart) {
 		cartRepository.save(new EntityMapper().convertDtoToEntity(cart));
 
+	}
+
+	/**
+	 * remove items from Cart by userId and productId.
+	 * If data does not exist for the given input, thrown an error message.
+	 */
+	@Override
+	@Transactional
+	public void removeCartItems(String userId, Long productId) throws DataNotFoundException {
+			if(CollectionUtils.isEmpty(cartRepository.findByUserIdAndProductId(userId, productId))){
+				throw new DataNotFoundException(Constant.DATA_NOT_FOUND_IN_CART_ERROR_MESSGAE);
+			}
+		cartRepository.deleteByUserIdAndProductId(userId, productId);
 	}
 }

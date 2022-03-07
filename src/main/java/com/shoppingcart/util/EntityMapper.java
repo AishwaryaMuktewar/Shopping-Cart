@@ -14,6 +14,7 @@ public class EntityMapper {
         cartEntity.setProductName(cart.getProductName());
         cartEntity.setProductQuantity(cart.getProductQuantity());
         cartEntity.setProductPrice(cart.getProductPrice());
+        cartEntity.setProductPurchasedDate(cart.getProductPurchasedDate());
         cartEntity.setProductDescription(cart.getProductDescription());
 
         return cartEntity;

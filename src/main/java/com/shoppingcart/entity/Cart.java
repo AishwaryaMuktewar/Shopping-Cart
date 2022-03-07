@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -14,15 +15,22 @@ import javax.persistence.Table;
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userId;
-    private Long productId;
-    private String productName;
-    private Double productPrice;
-    private Integer productQuantity;
-    private Date productPurchasedDate;
-    private String productDescription;
+	@NotNull(message = "user id should not be null")
+	private String userId;
+	@NotNull(message = "product id should not be null")
+	private Long productId;
+	@NotNull(message = "product name should not be null")
+	private String productName;
+	@NotNull(message = "product price should not be null")
+	private Double productPrice;
+	@NotNull(message = "product quantity should not be null")
+	private Integer productQuantity;
+	@NotNull(message = "purchased date should not be null")
+	private Date productPurchasedDate;
+	@NotNull(message = "product description should not be null")
+	private String productDescription;
     
 	public Long getId() {
 		return id;

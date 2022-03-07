@@ -16,4 +16,6 @@ public interface ShoppingCartService {
 	 * @throws DataNotFoundException
 	 */
 	List<Cart> getCartItems(String userId, Long productId) throws DataNotFoundException;
+	public void addProduct(com.shoppingcart.dto.Cart cart);
+
 }

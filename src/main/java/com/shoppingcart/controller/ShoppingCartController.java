@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class ShoppingCartController {
 	
@@ -34,7 +36,7 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/add-to-kart")
-	public ResponseEntity<com.shoppingcart.dto.Cart> addProductToCart(@RequestBody com.shoppingcart.dto.Cart cart) {
+	public ResponseEntity<com.shoppingcart.dto.Cart> addProductToCart(@Valid @RequestBody com.shoppingcart.dto.Cart cart) {
 		shoppingCartService.addProduct(cart);
 		return new ResponseEntity<>(cart, HttpStatus.CREATED);
 	}

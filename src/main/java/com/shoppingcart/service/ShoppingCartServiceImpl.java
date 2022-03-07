@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.shoppingcart.util.EntityMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
  		}
  		return cartItems;
 	}
+	@Override
+	public void addProduct(com.shoppingcart.dto.Cart cart) {
+		cartRepository.save(new EntityMapper().convertDtoToEntity(cart));
 
+	}
 }

@@ -48,4 +48,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
+	
+	/**
+	 * Handle exceptions related to ShoppingCart functionalities
+	 * @param ex
+	 * @param webRequest
+	 * @return
+	 */
+	@ExceptionHandler(ShoppingCartException.class)
+	public ResponseEntity<Object> handleShoppingCartException(ShoppingCartException ex, WebRequest webRequest){
+		ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getCode(), ex.getMessage());
+		HttpStatus httpStatus = HttpStatus.valueOf(ex.getCode());
+		return new ResponseEntity<>(exceptionResponse, httpStatus);
+	}
 }

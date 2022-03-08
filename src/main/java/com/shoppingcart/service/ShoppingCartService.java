@@ -30,8 +30,10 @@ public interface ShoppingCartService {
 	void removeCartItems(String userId, Long productId) throws DataNotFoundException;
 	
 	/**
-	 * @throws ShoppingCartException 
 	 * 
+	 * @param userId
+	 * @return
+	 * @throws ShoppingCartException
 	 */
-	OrderDto checkoutAndCreateOrder() throws ShoppingCartException;
+	OrderDto checkoutAndCreateOrder(String userId) throws ShoppingCartException;
 }

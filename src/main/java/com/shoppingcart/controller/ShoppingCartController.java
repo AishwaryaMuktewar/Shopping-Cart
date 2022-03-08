@@ -35,7 +35,7 @@ public class ShoppingCartController {
 	 * @throws DataNotFoundException
 	 */
 	@GetMapping("/get-cart-items")
-	public ResponseEntity<List<Cart>> getCartItems(@RequestParam(value = "userId", required = false) String userId, @RequestParam(value = "productId", required = false) Long productId) throws DataNotFoundException{
+	public ResponseEntity<List<Cart>> getCartItems(@RequestParam(value = "userId", required = true) String userId, @RequestParam(value = "productId", required = false) Long productId) throws DataNotFoundException{
 		return new ResponseEntity<>(shoppingCartService.getCartItems(userId, productId), HttpStatus.OK);
 	}
 
@@ -60,11 +60,12 @@ public class ShoppingCartController {
 	
 	/**
 	 * 
+	 * @param userId
 	 * @return
 	 * @throws ShoppingCartException
 	 */
 	@PostMapping("/checkout-and-create-order")
-	public ResponseEntity<OrderDto> checkoutAndCreateOrder() throws ShoppingCartException{
-		return new ResponseEntity<>(shoppingCartService.checkoutAndCreateOrder(), HttpStatus.CREATED);
+	public ResponseEntity<OrderDto> checkoutAndCreateOrder(@RequestParam(value = "userId", required = true) String userId) throws ShoppingCartException{
+		return new ResponseEntity<>(shoppingCartService.checkoutAndCreateOrder(userId), HttpStatus.CREATED);
 	}
 }

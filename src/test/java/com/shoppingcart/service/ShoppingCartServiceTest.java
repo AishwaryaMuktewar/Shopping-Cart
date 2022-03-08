@@ -66,33 +66,28 @@ public class ShoppingCartServiceTest {
         
     @Test()
     public void testGetCartItemsWithException() throws DataNotFoundException {
-        doReturn(new ArrayList<>()).when(cartRepository).findAll();
-        Assertions.assertThrows(DataNotFoundException.class, () -> shoppingCartService.getCartItems("User", 1L));
+        doReturn(new ArrayList<>()).when(cartRepository).findByUserId("User");
+        Assertions.assertThrows(DataNotFoundException.class, () -> shoppingCartService.getCartItems("User", null));
     } 
-    
+        
     @Test
-    public void testGetCartItems() throws DataNotFoundException {
-        doReturn(cartItems).when(cartRepository).findAll();
-    	assertNotNull(shoppingCartService.getCartItems(null, null));
-    }
-    
-    @Test
-    public void testGetCartItemsByProductId() throws DataNotFoundException {
+    public void testGetCartItemsByUserIdAndProductId() throws DataNotFoundException {
     	Cart cartFirstProduct =new Cart();
     	cartFirstProduct.setProductDescription("Good TV");
     	cartFirstProduct.setProductId(479654L);
     	cartFirstProduct.setProductName("Samsung TV");
     	cartFirstProduct.setProductPrice(35999.00);
     	cartFirstProduct.setUserId("User289");
-    	doReturn(Arrays.asList(cartFirstProduct)).when(cartRepository).findByProductId(479654L);
-    	List<Cart> cartList = shoppingCartService.getCartItems(null, 479654L);
+    	doReturn(Arrays.asList(cartFirstProduct)).when(cartRepository).findByUserIdAndProductId("User289", 479654L);
+    	List<Cart> cartList = shoppingCartService.getCartItems("User289", 479654L);
     	assertEquals(1, cartList.size());
+    	assertNotNull(cartList);
    }
         
     @Test
     public void testCheckoutAndCreateOrderWithException() throws Exception {
     	doReturn(new ArrayList<>()).when(cartRepository).findAll();
-    	Assertions.assertThrows(ShoppingCartException.class, () -> shoppingCartService.checkoutAndCreateOrder());
+    	Assertions.assertThrows(ShoppingCartException.class, () -> shoppingCartService.checkoutAndCreateOrder("User123"));
     }
     
 }

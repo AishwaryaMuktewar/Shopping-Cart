@@ -38,8 +38,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	private String creteaOrderServiceUrl;
 
     /**
-     * If userId or productId exist, get items from Cart by userId or productId or both. 
-     * If not, get all the items from Cart. If nothing
+     * If userId and productId exist, get items from Cart by userId and productId. 
+     * If not, get items from Cart by userId. If nothing
      * exist, thrown an error message.
      */
 	@Override
@@ -48,17 +48,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
  		if(StringUtils.isNotBlank(userId) && Objects.nonNull(productId)) {
  			cartItems = cartRepository.findByUserIdAndProductId(userId, productId);
 		}
- 		
- 		else if(StringUtils.isNotBlank(userId)) {
- 			cartItems = cartRepository.findByUserId(userId);
-		}
- 		
- 		else if(Objects.nonNull(productId)) {
- 			cartItems = cartRepository.findByProductId(productId);
-		}
- 		
  		else {
- 			cartItems = cartRepository.findAll();
+ 			cartItems = cartRepository.findByUserId(userId);
  		}
  		
  		if(CollectionUtils.isEmpty(cartItems)) {
@@ -66,6 +57,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
  		}
  		return cartItems;
 	}
+	
 	@Override
 	public void addProduct(com.shoppingcart.dto.Cart cart) {
 		cartRepository.save(new EntityMapper().convertDtoToEntity(cart));
@@ -92,12 +84,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	 * error message.
 	 */
 	@Override
-	public OrderDto checkoutAndCreateOrder() throws ShoppingCartException {
+	public OrderDto checkoutAndCreateOrder(String userId) throws ShoppingCartException {
 		List<Product> productList = new ArrayList<> ();
 		OrderDto orderDto = new OrderDto();
 		ResponseEntity<OrderDto> orderDtoResponseEntity = null;
-		List<Cart> cartItems = cartRepository.findAll();
-		if(CollectionUtils.isEmpty(cartItems)) {
+		List<Cart> cartItems = cartRepository.findByUserId(userId);
+	    if(CollectionUtils.isEmpty(cartItems)) {
 			throw new ShoppingCartException(HttpStatus.NOT_FOUND.value(), Constant.CART_EMPTY_ERROR_MESSGAE);
 		}
 		for(Cart  cart: cartItems) {
